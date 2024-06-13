@@ -1,0 +1,111 @@
+﻿<UserControl x:Class="NetworkService.Views.NetworkEntitiesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NetworkService.Views"
+             xmlns:viewModel="clr-namespace:NetworkService.ViewModel"
+             xmlns:data="clr-namespace:NetworkService.Model"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Background="{StaticResource UIPrimaryColor}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="230"/>
+
+            <RowDefinition Height="Auto"/>
+
+        </Grid.RowDefinitions>
+
+        <RadioButton  Content="Name" FontFamily="Arial"  Width="70" Margin="37,71,693,209.2" IsChecked="{Binding IsSearchByName}" Foreground="{StaticResource UISecondaryColor}" Grid.RowSpan="3" ToolTip="Select circle if you wanna search by Name"/>
+        <RadioButton Content="Type" FontFamily="Arial" Grid.Row="2" Margin="37,17,706,191.2" Foreground="{StaticResource UISecondaryColor}" IsChecked="{Binding IsSearchByType}" ToolTip="Select circle if you wanna search by Type"/>
+
+
+        <!-- Entity Table -->
+        <ListView Grid.Row="2" ItemsSource="{Binding SearcedTemperatures}" SelectedItem="{Binding SelectedTemperature}" Background="{StaticResource UIThirdColor}" Foreground="{StaticResource UISecondaryColor}"  Margin="20,45,301,0.2">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding ID}" Width="70">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock TextAlignment="Center" Text="{Binding ID}" Foreground="{StaticResource UISecondaryColor}" ToolTip="{Binding ID}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="90">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock TextAlignment="Left" Text="{Binding Name}" Foreground="{StaticResource UISecondaryColor}" ToolTip="{Binding Name}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header=" Type" DisplayMemberBinding="{Binding TemperatureType}" Width="90">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock TextAlignment="Left" Text="{Binding TemperatureType}" Foreground="{StaticResource UISecondaryColor}" ToolTip="{Binding TemperatureType}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Value" DisplayMemberBinding="{Binding MesurmentValue}" Width="70">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock TextAlignment="Right" Text="{Binding MesurmentValue}" Foreground="{StaticResource UISecondaryColor}" ToolTip="{Binding MesurmentValue}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <!-- Entity Form -->
+
+        <TextBlock FontFamily="Arial" Text="Create New Entity" Foreground="{StaticResource UISecondaryColor}" Margin="523,20,62,15.2" FontSize="25"/>
+        <Border Background="{StaticResource UIThirdColor}" Margin="549,61,62,9.6" CornerRadius="25,25,25,25" Grid.RowSpan="4"/>
+        <Border Background="{StaticResource UISecondaryColor}" Grid.Row="2" CornerRadius="25,25,25,25" Margin="566,0,78,0" Height="255" VerticalAlignment="Top" Grid.RowSpan="2"/>
+        <TextBox Text="{Binding IDText}"  ToolTip="Enter unique Id" Height="30"   Grid.Row="2" Margin="585,107,93,94.2"/>
+        <TextBlock  FontFamily="Arial" Text="ID:" Grid.Row="2" Height="20" Margin="585,87,178,124.2" FontSize="15" Foreground="{StaticResource UIThirdColor}"/>
+        <TextBlock   FontFamily="Arial" Text="Name:" Grid.Row="2" Margin="585,25,154,186.2" FontSize="15" Foreground="{StaticResource UIThirdColor}"/>
+        <TextBox x:Name="NameTB" Text="{Binding NameText}" Margin="585,50,93,151.2" ToolTip="Enter a unique name"  Grid.Row="2" Height="30"/>
+        <TextBlock  Grid.Row="2" Margin="581,206,78,37.6" Foreground="{StaticResource UIFourColor}" Text="{Binding ValidationText}" Grid.RowSpan="2"/>
+
+        <TextBlock  FontFamily="Arial" Text="Type:" Grid.Row="2" Height="30" FontSize="15" Margin="585,141,154,60.2" Foreground="{StaticResource UIThirdColor}"/>
+        <TextBlock  FontFamily="Arial"  Text="Search Entities" Foreground="{StaticResource UISecondaryColor}" FontSize="30" Margin="20,30,555,0" Grid.RowSpan="2" />
+        <ComboBox  Grid.Row="2" IsEditable="True" Width="150" Margin="120,0,530,199.2" Text="{Binding NameSearchText,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" ToolTip="Enter the content you are searching for"/>
+
+        <ComboBox ItemsSource="{Binding TemperatureTypes}" SelectedItem="{Binding TemperatureType}" Height="30" ToolTip="Select type"  Grid.Row="2" Margin="585,171,93,30.2"  />
+        <Button Content="Add" FontFamily="Arial" Command="{Binding AddCommand}" Style="{StaticResource ButtonP1}" Width="Auto"  Background="{StaticResource UISecondaryColor}"  Foreground="{StaticResource UIPrimaryColor}" FontSize="15" ToolTip="Add new Temperature" Grid.Row="3" Height="30" Margin="509,62.8,178,-43.2" />
+        <Button Content="Delete" FontFamily="Arial" Command="{Binding DeleteCommand}" Style="{StaticResource ButtonP1}" Margin="643,62.8,42,-44" Width="Auto" Height="30" FontSize="15" Grid.Row="3" Background="{StaticResource UISecondaryColor}" Foreground="{StaticResource UIPrimaryColor}" ToolTip="Delete selected Temperature" />
+
+        <RichTextBox Grid.Row="3" Margin="155,23.8,344,-66.4"
+                     Visibility="{Binding  HelpVisibility}" Background="{StaticResource UIThirdColor}">
+            <FlowDocument>
+                <Paragraph>
+                    <Run Text="{Binding RichText}" Foreground="{StaticResource UISecondaryColor}"/>
+                </Paragraph>
+            </FlowDocument>
+        </RichTextBox>
+        <Button
+            Command="{Binding HelpCommand}"
+            Visibility="{Binding HelpVisibility}"
+            Content="Help"
+            Style="{StaticResource ButtonP1}"
+            Grid.Row="3"
+            FontFamily="Arial"
+            FontSize="20"
+            ToolTip="Clicking this button gives you help information about the current window"
+            Width="Auto" Margin="20,23.8,666,-12.4"
+            Background="{StaticResource UISecondaryColor}"
+            Foreground="{StaticResource UIPrimaryColor}" Height="Auto"/>
+        <ToggleButton
+            Background="{StaticResource UISecondaryColor}"
+            Foreground="{StaticResource UIPrimaryColor}"
+            FontFamily="Arial"
+            ToolTip="Clicking this button turns off the help field"
+            Command="{Binding ToggleHelpVisibilityCommand}"
+            Grid.Row="3" Margin="20,83.8,666,-66.4"
+            Content="E/D Help"/>
+
+
+    </Grid>
+</UserControl>
